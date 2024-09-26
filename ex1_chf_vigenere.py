@@ -12,6 +12,9 @@ def chiffrementVigenere(motAchiffrer : str, clef : str) -> str:
         i : int
         code : int
 
+        facteur1 : int
+        facteur2 : int
+
         motChiffre : [int]
         cleChiffre : [int]
         lstInt : [str]
@@ -19,17 +22,10 @@ def chiffrementVigenere(motAchiffrer : str, clef : str) -> str:
         strResultat : str
 
         # Initialisation
-        codeAlphabet = 0
-        carASCII = 0
-        carCle = 0
-        i = 0
-        code = 0
-
         motChiffre = []
         cleChiffre = []
         lstInt = []
         lstStr = []
-        strResultat = ""
 
         # Parcours du mot à chiffrer
         for car in motAchiffrer:
@@ -67,30 +63,30 @@ def chiffrementVigenere(motAchiffrer : str, clef : str) -> str:
                     return 'Caractère spécial intraitable'
 
                 motChiffre.append(carASCII)
-
-            if carASCII % 2 != 0: # Si impair
-                motChiffre.append(carASCII-1)
-            else : # Si pair
-                motChiffre.append(carASCII)
+            motChiffre.append(carASCII)
 
         for car in clef:
-            if ord(car) % 2 != 0: # Si impair
-                cleChiffre.append(ord(car)-1)
-            else : # Si pair
-                cleChiffre.append(ord(car))
-
+            cleChiffre.append(ord(car))
 
         # Chiffrement
         for i in range(len(motChiffre)):  # On chiffre le mot
-            carCle = cleChiffre[i % len(cleChiffre)]
+            carCle = cleChiffre[i % len(cleChiffre)] # Pour éviter les erreurs de dépassement
 
-            if 65 <= motChiffre[i] <= 90:  # Majuscule
-                codeAlphabet = (motChiffre[i] - 64 + carCle - 64) % 26 + 64 # +64 pour revenir à la table ASCII (majuscule)
+            if 65 <= motChiffre[i] <= 90: # On vérifie si la lettre du mot est en majuscule
+                facteur1 = 65
 
-            elif 97 <= motChiffre[i] <= 122:  # Minuscule
-                codeAlphabet = (motChiffre[i] - 96 + carCle - 96) % 26 + 96 # +96 pour revenir à la table ASCII (minuscule)
+            elif 97 <= motChiffre[i] <= 122: # On vérifie si la lettre du mot est en minuscule
+                facteur1 = 97
 
-            lstInt.append(codeAlphabet)
+            if 65 <= carCle <= 90: # On vérifie si la lettre de la clé est en majuscule
+                facteur2 = 65
+
+            elif 97 <= carCle <= 122: # On vérifie si la lettre de la clé est en minuscule
+                facteur2 = 97
+
+            code = (motChiffre[i] - facteur1 + carCle - facteur2) % 26 + facteur1
+
+            lstInt.append(code)
 
         for code in lstInt:  # On convertit les chiffres en lettres
             lstStr.append(chr(code))
