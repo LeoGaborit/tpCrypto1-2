@@ -1,6 +1,6 @@
 def chiffrementVigenere(motAchiffrer : str, clef : str) -> str:
-    """Chiffre un mot en utilisant le chiffre de Vigenère
-    Préconditions: motAchiffrer est un mot en majuscules
+    """Chiffre un mot en utilisant le chiffrement de Vigenère
+    Préconditions: motAchiffrer est un mot en majuscules et/ou minuscules
     Postconditions: retourne le mot chiffré"""
 
     # Initialisation des variables
