@@ -1,4 +1,4 @@
-def dechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
+def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
     """
     Dechiffre un mot en utilisant le chiffrement de Vigenère
     Préconditions: motADechiffrer est un mot en majuscules et/ou minuscules
@@ -85,3 +85,63 @@ def dechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
             inverseur = False
         else:
             cleChiffre = lstTemporaire.copy()
+
+
+    # Dechiffrement
+
+    for i in range(len(motChiffre)):  # On chiffre le mot
+        carCle = cleChiffre[i % len(cleChiffre)] # Pour éviter les erreurs de dépassement
+
+        if 65 <= motChiffre[i] <= 90: # On vérifie si la lettre du mot est en majuscule
+            facteur1 = 65
+
+        elif 97 <= motChiffre[i] <= 122: # On vérifie si la lettre du mot est en minuscule
+            facteur1 = 97
+
+        if 65 <= carCle <= 90: # On vérifie si la lettre de la clé est en majuscule
+            facteur2 = 65
+
+        elif 97 <= carCle <= 122: # On vérifie si la lettre de la clé est en minuscule
+            facteur2 = 97
+
+        code = ((motChiffre[i] - facteur1) - (carCle - facteur2)) % 26 + facteur1
+        lstInt.append(code)
+
+    for code in lstInt:  # On convertit les chiffres en lettres
+        lstStr.append(chr(code))
+
+    strResultat = ''.join(lstStr)  # On concatène les lettres
+
+    return motADechiffrer + " chiffré à l'aide de la clé " + clef + " donne : " + strResultat
+
+# Tests
+
+DechiffrerNormal = "Vpbygnpfkc"
+DechiffrerAvecMajs = "VpbYGNPfkC"
+DechiffrerSpecial = "Vpbygnpfkc"
+DechiffrerInvalide = "Vpbygnpfkc!"
+
+clefNormale = "Clef"
+clefSpeciale = "Cléf"
+clefAvecMajs = "ClEf"
+clefInvalide = "Clef!"
+
+print(DechiffrementVigenere(DechiffrerNormal, clefNormale))
+print(DechiffrementVigenere(DechiffrerAvecMajs, clefNormale))
+print(DechiffrementVigenere(DechiffrerSpecial, clefNormale))
+print(DechiffrementVigenere(DechiffrerInvalide, clefNormale))
+
+print(DechiffrementVigenere(DechiffrerNormal, clefSpeciale))
+print(DechiffrementVigenere(DechiffrerAvecMajs, clefSpeciale))
+print(DechiffrementVigenere(DechiffrerSpecial, clefSpeciale))
+print(DechiffrementVigenere(DechiffrerInvalide, clefSpeciale))
+
+print(DechiffrementVigenere(DechiffrerNormal, clefAvecMajs))
+print(DechiffrementVigenere(DechiffrerAvecMajs, clefAvecMajs))
+print(DechiffrementVigenere(DechiffrerSpecial, clefAvecMajs))
+print(DechiffrementVigenere(DechiffrerInvalide, clefAvecMajs))
+
+print(DechiffrementVigenere(DechiffrerNormal, clefInvalide))
+print(DechiffrementVigenere(DechiffrerAvecMajs, clefInvalide))
+print(DechiffrementVigenere(DechiffrerSpecial, clefInvalide))
+print(DechiffrementVigenere(DechiffrerInvalide, clefInvalide))
