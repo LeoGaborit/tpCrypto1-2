@@ -1,3 +1,12 @@
+"""
+TODO (je te le fait pas en bas parce que je sais pas vraiment où ça va enft)
+
+En gros, quand tu passes les tests, au lieu de te marquer "caractere special intraitable,
+il affiche rien et skip direct à la fin
+
+C est pas facile a expliquer, lance juste le programme et prends l option 3 ou 4, tu verras
+"""
+
 from time import sleep
 
 def VigenereMenu():
