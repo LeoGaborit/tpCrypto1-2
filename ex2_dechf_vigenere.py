@@ -88,7 +88,6 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
 
 
     # Dechiffrement
-
     for i in range(len(motChiffre)):  # On chiffre le mot
         carCle = cleChiffre[i % len(cleChiffre)] # Pour éviter les erreurs de dépassement
 
@@ -112,36 +111,17 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
 
     strResultat = ''.join(lstStr)  # On concatène les lettres
 
-    return motADechiffrer + " chiffré à l'aide de la clé " + clef + " donne : " + strResultat
+    return motADechiffrer + " déchiffré à l'aide de la clé " + clef + " donne : " + strResultat
+
 
 # Tests
+def dechiffrementVigenereTests() :
+    motsTest = ["Vpbygnpfkc", "VpbYGNPfkC", "Vpbygnpfkc", "Vpbygnpfkc!"]
+    clefsTest = ["Clef", "Cléf", "ClEf", "Clef!"]
+    i = 0
 
-DechiffrerNormal = "Vpbygnpfkc"
-DechiffrerAvecMajs = "VpbYGNPfkC"
-DechiffrerSpecial = "Vpbygnpfkc"
-DechiffrerInvalide = "Vpbygnpfkc!"
-
-clefNormale = "Clef"
-clefSpeciale = "Cléf"
-clefAvecMajs = "ClEf"
-clefInvalide = "Clef!"
-
-print(DechiffrementVigenere(DechiffrerNormal, clefNormale))
-print(DechiffrementVigenere(DechiffrerAvecMajs, clefNormale))
-print(DechiffrementVigenere(DechiffrerSpecial, clefNormale))
-print(DechiffrementVigenere(DechiffrerInvalide, clefNormale))
-
-print(DechiffrementVigenere(DechiffrerNormal, clefSpeciale))
-print(DechiffrementVigenere(DechiffrerAvecMajs, clefSpeciale))
-print(DechiffrementVigenere(DechiffrerSpecial, clefSpeciale))
-print(DechiffrementVigenere(DechiffrerInvalide, clefSpeciale))
-
-print(DechiffrementVigenere(DechiffrerNormal, clefAvecMajs))
-print(DechiffrementVigenere(DechiffrerAvecMajs, clefAvecMajs))
-print(DechiffrementVigenere(DechiffrerSpecial, clefAvecMajs))
-print(DechiffrementVigenere(DechiffrerInvalide, clefAvecMajs))
-
-print(DechiffrementVigenere(DechiffrerNormal, clefInvalide))
-print(DechiffrementVigenere(DechiffrerAvecMajs, clefInvalide))
-print(DechiffrementVigenere(DechiffrerSpecial, clefInvalide))
-print(DechiffrementVigenere(DechiffrerInvalide, clefInvalide))
+    for mot in motsTest:
+        print()
+        for clef in clefsTest:
+            i += 1
+            print("Test n°", i, " : ", DechiffrementVigenere(mot, clef))
