@@ -27,8 +27,6 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
 
     # Initialisation
     lstTemporaire = []
-    motDechiffre = []
-    cleDechiffre = []
     lstInt = []
     lstStr = []
 
