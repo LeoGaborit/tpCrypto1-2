@@ -66,23 +66,45 @@ def dechiffrKasiski(texte : str) -> list:
         if gaps != []:
             print(f"Séquence: '{sequence}' - Nombre de répétitions: {len(indices)} - Écarts: {gaps}")
             ecartsListe.append(gaps[0])
-
+    print (ecartsListe)
     return ecartsListe
 
 
-def pgdcListe(nombres : list) -> int:
-    if len(nombres) < 2:
-        return -1
 
-    pgdc = nombres[0]
-    for nb in nombres[1:]:
-        pgdc = math.gcd(pgdc, nb)
+def pgcd_multiple(numbers):
+    result = numbers[0]
+    for num in numbers[1:]:
+        result = math.gcd(result, num)
+    return result
 
-    return pgdc
+def majority_gcd(numbers):
+    count = {}
+    for num in numbers:
+        if num in count:
+            count[num] += 1
+        else:
+            count[num] = 1
+    majority_threshold = len(numbers) // 2
+    for num, freq in count.items():
+        if freq > majority_threshold:
+            return num
+    return None
+
+def filter_values(numbers):
+    majority_value = majority_gcd(numbers)
+    if majority_value is None:
+        return numbers  # No majority value found
+    return [num for num in numbers if math.gcd(num, majority_value) == majority_value]
+
+# Liste des nombres
+numbers = dechiffrKasiski(text)
+
+# Filtrer les valeurs gênantes
+filtered_numbers = filter_values(numbers)
+print("Liste filtrée :", filtered_numbers)
+
 
 
 
 # Exemple d'utilisation
-texte = "abracadabra"
 print(dechiffrKasiski(text))
-print(pgdcListe(dechiffrKasiski(text)))
