@@ -15,11 +15,17 @@ LKGXPNRLBA OEDFTRBXZA VRRPKQIMAG FRLBNYHCIY
 taille clé : 8
 """
 import math
+from functools import reduce
+import os
+
+
 
 texte_chiffré = str
 texte_chiffré = "SBGZPLPSLA OZRLLDHAZT TSKUGGURHI UEFPGZCECA WBGOZSKHDB JACOKTDZMQ IWVANVKEHE JIQBNQRRPP WWMDPPYIFI RSDRZTKUYF WEDSHTBQHB LTLVYFTAUE AXRAXTNEDS TQHSVSLVZT TIIIPXRQBE ETDBOACEME QBNAJGYTKM MAPLYAVJKQ CTYEVISQIH VMHBNASSRN GBKOWNZQXM YAUCIYSBGZ PLPSLANMKE THDVMQSDIA VBOOPLCYWP XAJGYTKMNU HTFRBWLOGY GTROXMEHPA GIVFXNXTRQ TOGERSLVMO GYGTROXMEH ZCFWSBAEOI WGXMCGZNJN XABTYESMTM CDGASMXYTT YOGAURIHVP DAZFWRFUJP SMRHZNHARU ZEKHHJXUII JHEWSNTSRN GKUXDSJUVK UYEUKEUAGF QLVTFPRQNP RRNQTIDRCD ZIXUXTFTKM SMIHVMDBOO PLCYDLBMCC VDFWSBJTVR LHKPHCYEPM YAUTYESZKE TNKMHBNASS WOUJXQPKZN JUUPTRECUG VFDSPSWMSE DFKEQQTHDL MEVWRHXNXC DZKRJLCYFW TEIRLCWMJB GOSLHUYUCP LRHUGFWEDA WQIEIHVBHA ZWCONNEMOZ VIETHOKDUA TTRZOLPTZO QXNRDGQZUDN KOPIZTTMRT LKGXPNRLBA OEDFTRBXZA VRRPKQIMAG FRLBNYHCIY"
 
 text = texte_chiffré.replace(" ", "")
+
+
 
 def estPremier(n):
     if n < 2:
@@ -36,7 +42,7 @@ def dechiffrKasiski(texte : str) -> list:
     toutesSequences = []
     ecartsListe = []
 
-    for longueur in range(3, len(texte) + 1):
+    for longueur in range(4, len(texte) + 1):
         for index in range(len(texte) - longueur + 1):
             sequence = texte[index:index + longueur]
             if sequence not in positions:
@@ -69,42 +75,11 @@ def dechiffrKasiski(texte : str) -> list:
     print (ecartsListe)
     return ecartsListe
 
-
-
-def pgcd_multiple(numbers):
-    result = numbers[0]
-    for num in numbers[1:]:
-        result = math.gcd(result, num)
-    return result
-
-def majority_gcd(numbers):
-    count = {}
-    for num in numbers:
-        if num in count:
-            count[num] += 1
-        else:
-            count[num] = 1
-    majority_threshold = len(numbers) // 2
-    for num, freq in count.items():
-        if freq > majority_threshold:
-            return num
-    return None
-
-def filter_values(numbers):
-    majority_value = majority_gcd(numbers)
-    if majority_value is None:
-        return numbers  # No majority value found
-    return [num for num in numbers if math.gcd(num, majority_value) == majority_value]
-
-# Liste des nombres
-numbers = dechiffrKasiski(text)
-
-# Filtrer les valeurs gênantes
-filtered_numbers = filter_values(numbers)
-print("Liste filtrée :", filtered_numbers)
-
+def pgcd_liste(liste):
+    return reduce(math.gcd, liste)
 
 
 
 # Exemple d'utilisation
 print(dechiffrKasiski(text))
+print("taille clé :", pgcd_liste(dechiffrKasiski(text)))
