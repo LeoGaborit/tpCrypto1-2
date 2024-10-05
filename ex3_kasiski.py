@@ -1,29 +1,6 @@
-"""text entrée:
-IuafxvrpgpzfseRbqbokqkPrbagkeaopymVnamqswisnsTymlhesqgyvhwkpdrxsfzagkvvyn
-rfahekvrltafmicyzhvujHNBqkskufrRzntdfrlavHEALPrjxvrnsmzfSgrhvunfrSVKWBTnf
-fohirfXucqvupGGXEESLAecgiodyamksrChvdwmysygwttsgxsfzojgamkvronuunbuinrnff
-lavcgneiisrrfbanuIzxiscuwvdsguxhytzowtisogcbizxisgnepnwefbtonktwarbqyowfz
-xgsbvlvIzxisrbeiketewflrvqlhkvvtkkasvktbxhzykxctSacbmdekvryecueiuwpqlriqx
-igntdttavbsayhzftnisnacimllWipqtyukMnsazyWamkJsiknZzlxibrzsgqohwheovzmsgu
-qrresdampphrljtamWipqAdqjbtoavrzpwYlqxzhvywwzoSacbmdeftvzAdqjbtovydzewtjs
-qXokfwgkcgnetajxKvrxejzglrjvtgzfoxesrjtfbmecwguuknqmyseuokeOBgsgnejxsmvqy
-kaeNMKEWGJONZSguteumktwtjvryaeqoTdseocriaecprhoizWofzikdsglnehnseuFzxnsnq
-wzxduvdhxgvpsguhukskdggxsfzwzxdmyfvbewdwxkcyovvmkmyslyevramkvrewzxdfryrGm
-vdavrUEKAKMYTZBJnakfzxysyraiqqhlhnrkzzytschzYfgkmzzyjoefyxkwgOmleagxknxaj
-mtnjwaksjfgzvhrretfwwjcViaeqfwnoegsrnmlzbrysZzeresjGmvdavrdrupcqobczqoerz
-vdzzyloiiztkhukySQDBVJRTokrgkdcakyealyffbolEalyffjnakfzxpfrzocpaliwtntVhw
-kpantwzxduvtekekaxbxvgnijaognoey
-
-(monologue du sénateur armstrong dans metal gear rising revengeance)
-
-taille clé : 9
-
-//TO DO : faire en sorte qu il aille chercher le texte chiffré dans un fichier texte
-"""
 import math
 from functools import reduce
 
-texte_chiffré = str
 texte_chiffré = "IuafxvrpgpzfseRbqbokqkPrbagkeaopymVnamqswisnsTymlhesqgyvhwkpdrxsfzagkvvynrfahekvrltafmicyzhvujHNBqkskufrRzntdfrlavHEALPrjxvrnsmzfSgrhvunfrSVKWBTnffohirfXucqvupGGXEESLAecgiodyamksrChvdwmysygwttsgxsfzojgamkvronuunbuinrnfflavcgneiisrrfbanuIzxiscuwvdsguxhytzowtisogcbizxisgnepnwefbtonktwarbqyowfzxgsbvlvIzxisrbeiketewflrvqlhkvvtkkasvktbxhzykxctSacbmdekvryecueiuwpqlriqxigntdttavbsayhzftnisnacimllWipqtyukMnsazyWamkJsiknZzlxibrzsgqohwheovzmsguqrresdampphrljtamWipqAdqjbtoavrzpwYlqxzhvywwzoSacbmdeftvzAdqjbtovydzewtjsqXokfwgkcgnetajxKvrxejzglrjvtgzfoxesrjtfbmecwguuknqmyseuokeOBgsgnejxsmvqykaeNMKEWGJONZSguteumktwtjvryaeqoTdseocriaecprhoizWofzikdsglnehnseuFzxnsnqwzxduvdhxgvpsguhukskdggxsfzwzxdmyfvbewdwxkcyovvmkmyslyevramkvrewzxdfryrGmvdavrUEKAKMYTZBJnakfzxysyraiqqhlhnrkzzytschzYfgkmzzyjoefyxkwgOmleagxknxajmtnjwaksjfgzvhrretfwwjcViaeqfwnoegsrnmlzbrysZzeresjGmvdavrdrupcqobczqoerzvdzzyloiiztkhukySQDBVJRTokrgkdcakyealyffbolEalyffjnakfzxpfrzocpaliwtntVhwkpantwzxduvtekekaxbxvgnijaognoey"
 text = texte_chiffré.replace(" ", "")
 
@@ -35,13 +12,14 @@ def estPremier(n):
             return False
     return True
 
-def dechiffrKasiski(texte : str) -> list:
+def dechiffrKasiski(texte: str) -> list:
     # Initialisation des variables
     positions = {}
     sequencesUniques = []
     toutesSequences = []
     ecartsListe = []
 
+    # Parcourir les séquences répétées de longueur >= 4
     for longueur in range(4, len(texte) + 1):
         for index in range(len(texte) - longueur + 1):
             sequence = texte[index:index + longueur]
@@ -49,6 +27,7 @@ def dechiffrKasiski(texte : str) -> list:
                 positions[sequence] = []
             positions[sequence].append(index)
 
+    # Identifier les séquences répétées
     for sequence, indices in positions.items():
         count = len(indices)
         if count > 1:
@@ -57,30 +36,43 @@ def dechiffrKasiski(texte : str) -> list:
     toutesSequences.sort(key=lambda x: len(x[0]), reverse=True)
 
     for sequence, indices in toutesSequences:
-
         if not any(sequence in other for other, _ in sequencesUniques):
             sequencesUniques.append((sequence, indices))
 
-    # Affichage des résultats
+    # Calculer les écarts entre les répétitions
     for sequence, indices in sequencesUniques:
         gaps = [indices[i] - indices[i - 1] for i in range(1, len(indices))]
 
+        # Filtrer les écarts qui ne sont pas premiers
+        gaps = [gap for gap in gaps if not estPremier(gap)]
 
-        for element in gaps:
-            if estPremier(element):
-                gaps.remove(element)
-        if gaps != []:
-            print(f"Séquence: '{sequence}' - Nombre de répétitions: {len(indices)} - Écarts: {gaps}")
+        # Si on a des écarts restants, les afficher et les stocker
+        if gaps:
+            #print(f"Séquence: '{sequence}' - Nombre de répétitions: {len(indices)} - Écarts: {gaps}")
             ecartsListe.append(gaps[0])
-    print (ecartsListe)
+
     return ecartsListe
 
 def pgcd_liste(liste):
+    if len(liste) == 0:
+        return None
     return reduce(math.gcd, liste)
 
-résultat = pgcd_liste(dechiffrKasiski(text))
+def dechiffrKasiskiTest(listeEssai: list):
+    print("Tests Kasiski : ")
+    for chaine in listeEssai:
+        ecarts = dechiffrKasiski(chaine)
+        if ecarts:
+            print(f"Pour {chaine} : Taille de clé probable = {pgcd_liste(ecarts)}")
+        else:
+            print(f"Pour {chaine} : Impossible de déterminer la taille de clé (pas assez de répétitions).")
 
+essaisJeux = [
+    "ABCDABCDABCDABCD",  # Taille de clé : 4
+    "XYZXYZXYZXYZXYZXYZ",  # Taille de clé : 3
+    "HELLOWORLDHELLOWORLDHELLOWORLD",  # Taille de clé : 10
+    "QWERTYQWERTYQWERTYQWERTY",  # Taille de clé : 6
+    "MNBVCXASDFGHMNBVCXASDFGHMNBVCXASDFGH"  # Taille de clé : 12
+]
 
-# Exemple d'utilisation
-print(dechiffrKasiski(text))
-print("taille clé :", pgcd_liste(dechiffrKasiski(text)))
+dechiffrKasiskiTest(essaisJeux)
