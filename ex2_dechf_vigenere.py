@@ -27,8 +27,6 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
 
     # Initialisation
     lstTemporaire = []
-    motDechiffre = []
-    cleDechiffre = []
     lstInt = []
     lstStr = []
 
@@ -44,6 +42,9 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
         for car in motAtraiter:
             carASCII = ord(car)
             if not ((65 <= carASCII <= 90) or (97 <= carASCII <= 122)):  # Test : Si caractère n'est pas entre a-z ou A-Z
+
+                if carASCII == 32:
+                    pass    # On enlève les espaces
 
                 #  On vérifie si car spécial
                 if 192 <= carASCII <= 197:  # A majuscule
