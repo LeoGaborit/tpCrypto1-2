@@ -116,8 +116,8 @@ def DechiffrementVigenere(motADechiffrer: str, clef: str) -> str:
 
 # Tests
 def dechiffrementVigenereTests():
-    motsTest = ["Vpbygnpfkc", "VpbYGNPfkC", "Vpbygnpfkc", "Vpbygnpfkc!"]
-    clefsTest = ["Clef", "Cléf", "ClEf", "Clef!"]
+    motsTest = ["Vpbygnpfkc", "VpbYGNPfkC", "Vpb gnpfkc", "Vpbygnpfkc!"]
+    clefsTest = ["Clef", "C éf", "ClEf", "Clef!"]
     i = 0
 
     for mot in motsTest:
