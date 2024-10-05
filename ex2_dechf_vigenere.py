@@ -1,4 +1,4 @@
-def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
+def DechiffrementVigenere(motADechiffrer: str, clef: str) -> str:
     """
     Dechiffre un mot en utilisant le chiffrement de Vigenère
     Préconditions: motADechiffrer est un mot en majuscules et/ou minuscules
@@ -16,7 +16,7 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
 
     inverseur: bool
 
-    motAtraiter : str
+    motAtraiter: str
 
     lstTemporaire: [int]
     motDechiffre: [int]
@@ -41,13 +41,14 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
         # Parcours du mot à chiffrer
         for car in motAtraiter:
             carASCII = ord(car)
-            if not ((65 <= carASCII <= 90) or (97 <= carASCII <= 122)):  # Test : Si caractère n'est pas entre a-z ou A-Z
+            if not ((65 <= carASCII <= 90) or (
+                    97 <= carASCII <= 122)):  # Test : Si caractère n'est pas entre a-z ou A-Z
 
                 if carASCII == 32:
-                    pass    # On enlève les espaces
+                    continue  # On enlève les espaces
 
                 #  On vérifie si car spécial
-                if 192 <= carASCII <= 197:  # A majuscule
+                elif 192 <= carASCII <= 197:  # A majuscule
                     lstTemporaire.append(65)
                 elif 200 <= carASCII <= 203:  # E majuscule
                     lstTemporaire.append(69)
@@ -59,7 +60,6 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
                     lstTemporaire.append(85)
                 elif 221 == carASCII:  # Y majuscule
                     lstTemporaire.append(89)
-
 
                 elif 224 <= carASCII <= 229:  # a minuscule
                     lstTemporaire.append(97)
@@ -87,21 +87,20 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
         else:
             cleChiffre = lstTemporaire.copy()
 
-
     # Dechiffrement
     for i in range(len(motChiffre)):  # On chiffre le mot
-        carCle = cleChiffre[i % len(cleChiffre)] # Pour éviter les erreurs de dépassement
+        carCle = cleChiffre[i % len(cleChiffre)]  # Pour éviter les erreurs de dépassement
 
-        if 65 <= motChiffre[i] <= 90: # On vérifie si la lettre du mot est en majuscule
+        if 65 <= motChiffre[i] <= 90:  # On vérifie si la lettre du mot est en majuscule
             facteur1 = 65
 
-        elif 97 <= motChiffre[i] <= 122: # On vérifie si la lettre du mot est en minuscule
+        elif 97 <= motChiffre[i] <= 122:  # On vérifie si la lettre du mot est en minuscule
             facteur1 = 97
 
-        if 65 <= carCle <= 90: # On vérifie si la lettre de la clé est en majuscule
+        if 65 <= carCle <= 90:  # On vérifie si la lettre de la clé est en majuscule
             facteur2 = 65
 
-        elif 97 <= carCle <= 122: # On vérifie si la lettre de la clé est en minuscule
+        elif 97 <= carCle <= 122:  # On vérifie si la lettre de la clé est en minuscule
             facteur2 = 97
 
         code = ((motChiffre[i] - facteur1) - (carCle - facteur2)) % 26 + facteur1
@@ -116,7 +115,7 @@ def DechiffrementVigenere(motADechiffrer : str, clef : str) -> str:
 
 
 # Tests
-def dechiffrementVigenereTests() :
+def dechiffrementVigenereTests():
     motsTest = ["Vpbygnpfkc", "VpbYGNPfkC", "Vpbygnpfkc", "Vpbygnpfkc!"]
     clefsTest = ["Clef", "Cléf", "ClEf", "Clef!"]
     i = 0

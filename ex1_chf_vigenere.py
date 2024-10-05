@@ -49,7 +49,7 @@ def chiffrementVigenere(motAchiffrer: str, clef: str) -> str:
             if not ((65 <= carASCII <= 90) or (97 <= carASCII <= 122)):  # Test : Si caractère n'est pas entre a-z ou A-Z
 
                 if carASCII == 32:
-                    pass    # On enlève les espaces
+                    continue # On enlève les espaces
 
                 #  On vérifie si car spécial
                 if 192 <= carASCII <= 197:  # A majuscule
@@ -121,8 +121,8 @@ def chiffrementVigenere(motAchiffrer: str, clef: str) -> str:
 
 # Tests
 def chiffrementVigenereTests():
-    motsTest = ["Texteclair", "TexTECLaiR", "Téxtècläîr", "Texteclair!"]
-    clefsTest = ["Clef", "Cléf", "ClEf", "Clef!"]
+    motsTest = ["Texteclair", "TexTECLaiR", "Téxt cläîr", "Texteclair!"]
+    clefsTest = ["Clef", "C éf", "ClEf", "Clef!"]
     i = 0
 
     for mot in motsTest:
